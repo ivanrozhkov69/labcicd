@@ -2,8 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose.yaml
-    kompose.version: 1.26.1 (a9d05d509)
+    kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -f docker-compose.yaml
+    kompose.version: 1.21.0 (992df58d8)
   creationTimestamp: null
   labels:
     io.kompose.service: phpmyadmin
@@ -17,24 +17,27 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose.yaml
-        kompose.version: 1.26.1 (a9d05d509)
+        kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -f docker-compose.yaml
+        kompose.version: 1.21.0 (992df58d8)
       creationTimestamp: null
       labels:
         io.kompose.service: phpmyadmin
     spec:
       containers:
-        - env:
-            - name: PMA_HOST
-              value: db
-            - name: PMA_PASSWORD
-              value: secret
-            - name: PMA_USER
-              value: root
-          image: phpmyadmin/phpmyadmin:5.0.1
-          name: phpmyadmin
-          ports:
-            - containerPort: 80
-          resources: {}
+      - env:
+        - name: PMA_HOST
+          value: db
+        - name: PMA_PASSWORD
+          value: "1"
+        - name: PMA_USER
+          value: root
+        image: phpmyadmin/phpmyadmin:5.0.1
+        imagePullPolicy: ""
+        name: phpmyadmin
+        ports:
+        - containerPort: 80
+        resources: {}
       restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
 status: {}

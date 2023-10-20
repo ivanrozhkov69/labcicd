@@ -2,8 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose.yaml
-    kompose.version: 1.26.1 (a9d05d509)
+    kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -f docker-compose.yaml
+    kompose.version: 1.21.0 (992df58d8)
   creationTimestamp: null
   labels:
     io.kompose.service: db
@@ -18,29 +18,31 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose.yaml
-        kompose.version: 1.26.1 (a9d05d509)
+        kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -f docker-compose.yaml
+        kompose.version: 1.21.0 (992df58d8)
       creationTimestamp: null
       labels:
         io.kompose.service: db
     spec:
       containers:
-        - env:
-            - name: MYSQL_DATABASE
-              value: lena
-            - name: MYSQL_ROOT_PASSWORD
-              value: secret
-          image: mhjkeee/mysql
-          name: db
-          ports:
-            - containerPort: 3306
-          resources: {}
-          volumeMounts:
-            - mountPath: /var/lib/mysql
-              name: mysql-data
+      - env:
+        - name: MYSQL_DATABASE
+          value: db
+        - name: MYSQL_ROOT_PASSWORD
+          value: "1"
+        image: ivan47/db
+        imagePullPolicy: ""
+        name: db
+        ports:
+        - containerPort: 3306
+        resources: {}
+        volumeMounts:
+        - mountPath: /var
+          name: mysql-data
       restartPolicy: Always
+      serviceAccountName: ""
       volumes:
-        - name: mysql-data
-          persistentVolumeClaim:
-            claimName: mysql-data
+      - name: mysql-data
+        persistentVolumeClaim:
+          claimName: mysql-data
 status: {}

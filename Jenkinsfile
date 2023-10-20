@@ -1,3 +1,4 @@
+PROGECT_NAME = "cicd"
 pipeline {
 
   agent {
