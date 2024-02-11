@@ -17,27 +17,5 @@ pipeline {
           }
         }
       }
-    }
-    
-    stage('Test'){
-      steps{
-        script{
-          
-         
-          echo '-------------Link test started-------------'
-         container('kubectl') {
-          withCredentials([file(credentialsId: 'mykubeconfig', variable: 'KUBECONFIG')]) {
-            sh 'kubectl get svc -n crud2'
-            sh 'kubectl get po -n crud2'
-
-          }
-        }
-          echo '-------------Link test finished-------------'
-          
-          }
-        }
-      }
-    }
-
-  
+    }  
 }
